@@ -1,9 +1,11 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 60
@@ -19,9 +21,9 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-    - name: show report
+    - name: Show report
       if: ${{ always() }}
-      run: npx playwright show-report
+      run: timeout 15s npx playwright show-report
       continue-on-error: true
     - uses: actions/checkout@v4
     - name: Copy Playwright report to GitHub Pages folder
@@ -41,18 +43,3 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-  # deploy:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Copy Playwright report to GitHub Pages folder
-  #       run: |
-  #         mkdir -p ./public/playwright-report
-  #         ls -la
-  #         cp -r ./playwright-report/* ./public/playwright-report/
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: ./public 
