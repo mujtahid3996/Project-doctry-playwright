@@ -20,24 +20,35 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
       continue-on-error: true
+    - uses: actions/checkout@v4
+    - name: Copy Playwright report to GitHub Pages folder
+      run: |
+          mkdir -p ./public/playwright-report
+          ls -la
+          cp -r ./playwright-report/* ./public/playwright-report/
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public     
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Copy Playwright report to GitHub Pages folder
-        run: |
-          mkdir -p ./public/playwright-report
-          ls -la
-          cp -r ./playwright-report/* ./public/playwright-report/
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public 
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Copy Playwright report to GitHub Pages folder
+  #       run: |
+  #         mkdir -p ./public/playwright-report
+  #         ls -la
+  #         cp -r ./playwright-report/* ./public/playwright-report/
+  #     - name: Deploy to GitHub Pages
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         publish_dir: ./public 
