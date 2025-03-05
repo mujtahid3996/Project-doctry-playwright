@@ -19,6 +19,8 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+    - name: show report
+      run: npx playwright show-report
       continue-on-error: true
     - uses: actions/checkout@v4
     - name: Copy Playwright report to GitHub Pages folder
