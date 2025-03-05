@@ -20,10 +20,12 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
     - name: show report
+      if: ${{ always() }}
       run: npx playwright show-report
       continue-on-error: true
     - uses: actions/checkout@v4
     - name: Copy Playwright report to GitHub Pages folder
+      if: ${{ always() }}
       run: |
           mkdir -p ./public/playwright-report
           ls -la
