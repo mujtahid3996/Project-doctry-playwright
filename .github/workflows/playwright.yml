@@ -34,6 +34,7 @@ jobs:
       - name: Copy Playwright report to GitHub Pages folder
         run: |
           mkdir -p ./public/playwright-report
+          ls -la
           cp -r ./playwright-report/* ./public/playwright-report/
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
