@@ -17,7 +17,7 @@ test('get started link', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
-test('navigate to sauce labs', async ({ page }) => {
+test.only('navigate to sauce labs', async ({ page }) => {
   await test.step( `navigate to sauce demo `, async() =>{ 
     await page.goto('https://www.saucedemo.com/');
   })
