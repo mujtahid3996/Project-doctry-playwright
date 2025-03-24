@@ -160,7 +160,7 @@ test('checkout Sauce Demo', async ({ page }) => {
   })
 
   await test.step( `click on loginbutton `, async() =>{ 
-    await page.locator('//input[@name="firstName"]').pressSequentially('asho Hagi')
+    await page.locator('//input[@name="firstName"]').pressSequentially('Mujtahid Bin Tawhid')
   })
 });
 test('input first username', async ({ page }) => {
@@ -195,4 +195,14 @@ test('input first username', async ({ page }) => {
   await test.step( `click on loginbutton `, async() =>{ 
     await page.locator('//input[@name="firstName"]').pressSequentially('asho Hagi')
   })
+});
+test('Amazon test', async ({ page }) => {
+  await test.step( `navigate to sauce demo `, async() =>{ 
+    await page.goto('https://www.amazon.com/');
+  })
+  // const categoryDropdown= 'select#searchDropdownBox' await this.page.selectOption(categoryDropdown, {value: categoryValue})
+  await test.step( `navigate to sauce demo `, async() =>{ 
+    await page.getByLabel('Select the department you want to search in').selectOption({label:'Software'})
+  })
+  
 });
