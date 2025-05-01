@@ -1,4 +1,6 @@
-import { test, expect,TestInfo } from '@playwright/test';
+import { TestInfo } from '@playwright/test';
+import { test, expect } from './work-fixture';
+
 import { AxeBuilder } from '@axe-core/playwright';
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
@@ -7,27 +9,39 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/Playwright/);
 });
 
-test('get started link', async ({ page }) => {
+test('@smoke get started link', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
   // Click the get started link.
   await page.getByRole('link', { name: 'Get started' }).click();
-  await page.locator('text=Installation').click()
+  await page.locator('text=Installation').nth(0).click()
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
-test('navigate to sauce labs', async ({ page }) => {
+test('navigate to sauce labs', async ({ page,account }) => {
+  
+  // url: https://www.saucedemo.com/inventory.html
   await test.step( `navigate to sauce demo `, async() =>{ 
+    
     await page.goto('https://www.saucedemo.com/');
+  })
+
+  await test.step( `check if the logo is visible `, async() =>{ 
+    const element = page.getByText('Swag Labs');
+    await expect(element).toBeVisible();
   })
   
   await test.step( `input username `, async() =>{ 
-    await page.locator('//input[@name="user-name"]').fill('standard_user');
+    await page.locator('//input[@name="user-name"]').fill(account.username);
   })
 
   await test.step( `input password `, async() =>{ 
-    await page.locator('//input[@placeholder="Password"]').fill('secret_sauce')
+    await page.locator('//input[@placeholder="Password"]').fill(account.password)
+  })
+
+  await test.step( `click on loginbutton `, async() =>{ 
+    await page.locator('//input[@name="login-button"]').click()
   })
 
   await test.step( `click on loginbutton `, async() =>{ 
@@ -54,12 +68,6 @@ test('navigate to automation exercise', async ({ page }) => {
   await test.step( `click on test cases doc `, async() =>{ 
     await page.locator('//button[text()="Test Cases"]').nth(0).click()
   })
-
-  
-
-  // await test.step( `click on loginbutton `, async() =>{ 
-  //   await page.locator('//input[@name="login-button"]').click()
-  // })
  
 });
 test('click on signup login for automation exercise', async ({ page }) => {
