@@ -1,5 +1,5 @@
-import { TestInfo } from '@playwright/test';
-import { test, expect } from './work-fixture';
+import { TestInfo,test, expect } from '@playwright/test';
+// import { test, expect } from './work-fixture';
 
 import { AxeBuilder } from '@axe-core/playwright';
 test('has title', async ({ page }) => {
@@ -19,7 +19,7 @@ test('@smoke get started link', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
-test('navigate to sauce labs', async ({ page,account }) => {
+test('navigate to sauce labs', async ({ page }) => {
   
   // url: https://www.saucedemo.com/inventory.html
   await test.step( `navigate to sauce demo `, async() =>{ 
@@ -33,11 +33,11 @@ test('navigate to sauce labs', async ({ page,account }) => {
   })
   
   await test.step( `input username `, async() =>{ 
-    await page.locator('//input[@name="user-name"]').fill(account.username);
+    await page.locator('//input[@name="user-name"]').fill('standard_user');
   })
 
   await test.step( `input password `, async() =>{ 
-    await page.locator('//input[@placeholder="Password"]').fill(account.password)
+    await page.locator('//input[@placeholder="Password"]').fill('secret_sauce')
   })
 
   await test.step( `click on loginbutton `, async() =>{ 
@@ -67,6 +67,15 @@ test('navigate to automation exercise', async ({ page }) => {
 
   await test.step( `click on test cases doc `, async() =>{ 
     await page.locator('//button[text()="Test Cases"]').nth(0).click()
+  })
+
+  await test.step( `click on API testing `, async() =>{ 
+    await page.locator('//a[text()=" API Testing"]').nth(0).click()
+  })
+
+  await test.step( `click on get all products list `, async() =>{ 
+    await page.getByRole('link').filter({hasText:'API 1: Get All Products List'}).click()
+    await expect.soft(page).toHaveScreenshot('screenshot.png', {maxDiffPixels:1000})
   })
  
 });
